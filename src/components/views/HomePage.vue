@@ -25,9 +25,12 @@ export default {
 </script>
 
 <style scoped>
-.con {
-    padding: 0;
-    margin: 0;
+.login {
+    font-family: '时尚中黑简体';
+    color: #ECECEC;
+    margin: 10px;
+    margin-right: 50px;
+    cursor: pointer;
 }
 .headerview {
     background-color: rgba(95,146,140,1);
@@ -38,27 +41,5 @@ export default {
     justify-content: flex-end;
     align-items: center;
 }
-.mainview {
-    background-color: rgba(239,240,242,1);
-    height: 560px;
-}
-.login {
-    font-family: '时尚中黑简体';
-    color: #ECECEC;
-    margin: 10px;
-    margin-right: 50px;
-    cursor: pointer;
-}
-.usercount {
-    font-family: '时尚中黑简体';
-    color: #434343;
-    font-weight: 900;
-    margin: 10px;
-    margin-right: 40px;
-    cursor: pointer;
-}
-.icomenu {
-    color: rgba(9,124,122,1);
-    margin-left: 10px;
-}
+
 </style>
