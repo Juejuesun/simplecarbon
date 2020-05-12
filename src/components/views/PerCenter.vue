@@ -25,7 +25,11 @@ export default {
     methods: {
         checked(page) {
             this.page = page
-            this.$router.push(`/home/percenter/${page}`);
+            this.$router.push({
+                path:`/home/percenter/${page}`,
+                query: {rc: page}
+                
+            })
         }
     }
 }

@@ -35,7 +35,8 @@ import {
   CarouselItem,
   Collapse,
   CollapseItem,
-  DatePicker
+  DatePicker,
+  Dialog
 } from 'element-ui'
 
 Vue.use(Button)
@@ -68,6 +69,8 @@ Vue.use(CarouselItem)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.use(DatePicker)
+Vue.use(TabPane)
+Vue.use(Dialog)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox

@@ -9,6 +9,11 @@ import PerHome from '../components/views/personalcenter/PerHome'
 import Friend from '../components/views/personalcenter/Friend'
 import City from '../components/views/personalcenter/City'
 import Country from '../components/views/personalcenter/Country'
+import CashChange from '../components/views/PlayMent/CashChange'
+import Things from '../components/views/PlayMent/Things'
+import Vouchers from '../components/views/PlayMent/Vouchers'
+import ForRecord from '../components/views/PlayMent/ForRecord'
+import Account from '../components/views/PlayMent/Account'
 
 Vue.use(VueRouter)
 
@@ -70,7 +75,38 @@ const routes = [
       {
         path: '/home/shopcenter',
         name: 'ShopCenter',
-        component: ShopCenter
+        component: ShopCenter,
+        children: [
+          {
+            path: '/home/shopcenter',
+            redirect: '/home/shopcenter/cashchange'
+          },
+          {
+            path: '/home/shopcenter/cashchange',
+            name: 'CashChange',
+            component: CashChange
+          },
+          {
+            path: '/home/shopcenter/things',
+            name: 'Things',
+            component: Things
+          },
+          {
+            path: '/home/shopcenter/vouchers',
+            name: 'Vouchers',
+            component: Vouchers
+          },
+          {
+            path: '/home/shopcenter/forrecord',
+            name: 'ForRecord',
+            component: ForRecord
+          },
+          {
+            path: '/home/shopcenter/account',
+            name: 'Account',
+            component: Account
+          }
+        ]
       }
     ]
   }
