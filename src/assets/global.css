@@ -37,6 +37,7 @@ html,body,#app{
 .mainview {
     background-color: rgba(239,240,242,1);
     height: 560px;
+    /* padding: 0; */
 }
 /* .el-breadcrumb{
     margin-bottom: 15px;

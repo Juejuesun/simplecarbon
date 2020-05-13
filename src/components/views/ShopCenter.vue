@@ -10,7 +10,7 @@
             </div>
             <div class="usercount">ViTTo<i class="el-icon-arrow-down icomenu"></i></div>
         </el-header>
-        <el-main class="mainview">
+        <el-main class="mainviewShop">
             <router-view/>
         </el-main>
     </el-container>
@@ -52,5 +52,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.mainviewShop {
+    background-color: rgba(205,221,217,1);
+    height: 560px;
+    /* padding: 0; */
 }
 </style>

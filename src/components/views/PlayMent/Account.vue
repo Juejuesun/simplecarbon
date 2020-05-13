@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="boxcontalin">
         会员
     </div>
 </template>
@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style scoped>
-
+.boxcontalin {
+    background-color: rgba(205,221,217,1);
+}
 </style>

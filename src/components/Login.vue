@@ -1,5 +1,18 @@
 <template>
     <div class="login_con">
+        <div class="animates">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
         <div class="login_box">
             <!-- <h3>登陆</h3> -->
             <div class="fonts">登陆</div>
@@ -111,5 +124,122 @@ export default {
 }
 i {
     margin: 0 15px 0 15px;
+}
+
+/* 动画 */
+.animates {
+    /* grid-column-start: 2; */
+    grid-row-start: 2;
+    align-self: center;
+    justify-self: center;
+}
+ul {
+    height: 200px;
+    display: flex;
+}
+li {
+    list-style-type:none;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin-right: 20px;
+}
+li:nth-child(1) {
+    /* background: red; */
+    animation: love1 4s 0s infinite;
+    background: #fff;
+}
+li:nth-child(2) {
+    /* background: darkturquoise; */
+    animation: love2 4s 0.2s infinite;
+    background: #fff;
+}
+li:nth-child(3) {
+    /* background: darksalmon; */
+    animation: love3 4s 0.4s infinite;
+    background: #fff;
+
+}
+li:nth-child(4) {
+    /* background: deeppink; */
+    animation: love4 4s 0.6s infinite;
+    background: #fff;
+}
+li:nth-child(5) {
+    /* background: yellow; */
+    animation: love5 4s 0.8s infinite;
+    background: #fff;
+}
+li:nth-child(6) {
+    /* background: deeppink; */
+    animation: love4 4s 0.6s infinite;
+    background: #fff;
+}
+li:nth-child(7) {
+    /* background-color: darksalmon; */
+    animation: love3 4s 0.4s infinite;
+    background: #fff;
+}
+li:nth-child(8) {
+    /* background: darkturquoise; */
+    animation: love2 4s 0.2s infinite;
+    background: #fff;
+}
+li:nth-child(9) {
+    /* background: red; */
+    animation: love1 4s 0s infinite;
+    background: #fff;
+}
+
+@keyframes love1 {
+    30%, 50% {
+        height: 60px;
+        transform: translateY(-30px);
+    }
+    70%, 100% {
+        height: 0px;
+        transform: translateY(0px);
+    }
+}
+@keyframes love2 {
+    30%, 50% {
+        height: 125px;
+        transform: translateY(-60px);
+    }
+    70%, 100% {
+        height: 0px;
+        transform: translateY(0px);
+    }
+}
+@keyframes love3 {
+    30%, 50% {
+        height: 160px;
+        transform: translateY(-75px);
+    }
+    70%, 100% {
+        height: 0px;
+        transform: translateY(0px);
+    }
+}
+@keyframes love4 {
+    30%, 50% {
+        height: 180px;
+        transform: translateY(-60px);
+    }
+    70%, 100% {
+        height: 0px;
+        transform: translateY(0px);
+    }
+}
+@keyframes love5 {
+    30%, 50% {
+        height: 200px;
+        transform: translateY(-45px);
+    }
+    70%, 100% {
+        height: 0px;
+        transform: translateY(0px);
+    }
 }
 </style>

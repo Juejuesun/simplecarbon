@@ -24,8 +24,8 @@
                     </div>
                     <div>
                         <el-carousel height="200px" indicator-position="outside">
-                            <el-carousel-item v-for="item in 6" :key="item">
-                            <h3 class="small">{{ item }}</h3>
+                            <el-carousel-item v-for="pic in picurls" :key="pic">
+                                <el-image :src="pic.url"></el-image>
                             </el-carousel-item>
                         </el-carousel>
                     </div>
@@ -68,7 +68,12 @@
 export default {
     data() {
         return {
-            showCard: true
+            showCard: true,
+            picurls: [
+                {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+            ]
         }
     },
     methods: {

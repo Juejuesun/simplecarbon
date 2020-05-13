@@ -39,8 +39,10 @@
                                     </div>
                                     <div>
                                         <el-carousel height="140px" :loop="false" indicator-position="none">
-                                            <el-carousel-item v-for="item in 4" :key="item">
-                                            <h3 class="small">{{ item }}</h3>
+                                            <el-carousel-item v-for="pic in picurls" :key="pic">
+                                                <!-- <h3 class="small">{{ item }}</h3>
+                                             -->
+                                                <el-image :src="pic.url"></el-image>
                                             </el-carousel-item>
                                         </el-carousel>
                                     </div>
@@ -97,6 +99,11 @@ export default {
                     avantar: ''
                 },
                 
+            ],
+            picurls: [
+                {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
             ]
         }
     },

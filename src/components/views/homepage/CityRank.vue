@@ -11,7 +11,7 @@
                 <div>
                     <!-- 表头 -->
                     <div class="tableheaderstyle">
-                        <div>排名</div>
+                        <div @click="getrankData">排名</div>
                         <div>城市</div>
                         <div>指数</div>
                     </div>
@@ -24,17 +24,17 @@
                         size="mini"
                         style="width: 100%; font-size: 15px; height: 220px; font-family: '时尚中黑简体';">
                         <el-table-column
-                            prop="date"
+                            prop="num"
                             label="排名"
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="name"
+                            prop="area"
                             label="城市"
                             align="center">
                         </el-table-column>
                         <el-table-column
-                            prop="address"
+                            prop="aqi"
                             label="指数"
                             align="center">
                         </el-table-column>
@@ -51,36 +51,63 @@ export default {
         return {
             city: '',
             tableData: [{
-                date: '1',
-                name: '福州',
-                address: '15'
+                num: '1',
+                area: '福州',
+                aqi: '15'
                 }, {
-                date: '2',
-                name: '上海',
-                address: '21'
+                num: '2',
+                area: '上海',
+                aqi: '21'
                 }, {
-                date: '3',
-                name: '成都',
-                address: '33'
+                num: '3',
+                area: '成都',
+                aqi: '33'
                 }, {
-                date: '4',
-                name: '上海',
-                address: '21'
+                num: '4',
+                area: '上海',
+                aqi: '21'
                 }, {
-                date: '5',
-                name: '成都',
-                address: '33'
+                num: '5',
+                area: '成都',
+                aqi: '33'
                 },{
-                date: '6',
-                name: '武汉',
-                address: '35'
-            }],
+                num: '6',
+                area: '上海',
+                aqi: '21'
+                }, {
+                num: '7',
+                area: '成都',
+                aqi: '33'
+                },{
+                num: '8',
+                area: '上海',
+                aqi: '21'
+                }],
+            cityData: [],
             hiddenTableHeader: false
         }
     },
     methods: {
         rowheaders() {
             return 'rowheader'
+        },
+        async getrankData() {
+            let config = {
+                headers: {
+                    // Authorization:'APPCODE a4e68331ad2643ffad45b4c984e3b3bb'
+                    "Authorization": "APPCODE a4e68331ad2643ffad45b4c984e3b3bb"
+                }
+            }
+            const {data: res} = await this.$http.get('http://ali-pm25.showapi.com/pm25-top', config)
+            // console.log(res)
+            let list = res.showapi_res_body.list
+            console.log(list)
+            this.cityData = list
+            for( let i = 0; i<8; i++) {
+                this.tableData[i].num = list[i].num
+                this.tableData[i].area = list[i].area
+                this.tableData[i].aqi = list[i].aqi
+            }
         }
     }
 }
