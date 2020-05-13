@@ -73,7 +73,7 @@ export default {
                 if (valid) {
                     // alert('submit!');
                     this.dialogVisible = true
-                    this.$refs['numberValidateForm'].resetFields();
+                    // this.$refs['numberValidateForm'].resetFields();
                 } else {
                     this.$message({
                         message:"提交失败",
@@ -89,6 +89,7 @@ export default {
             // axios请求
             this.dialogVisible = false
             this.bussdone = true
+            this.$refs['numberValidateForm'].resetFields();
         }
     }
 }
