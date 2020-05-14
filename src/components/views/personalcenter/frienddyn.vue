@@ -39,7 +39,7 @@
                                     </div>
                                     <div>
                                         <el-carousel height="140px" :loop="false" indicator-position="none">
-                                            <el-carousel-item v-for="pic in picurls" :key="pic">
+                                            <el-carousel-item v-for="(pic, imgindex) in picurls" :key="imgindex">
                                                 <!-- <h3 class="small">{{ item }}</h3>
                                              -->
                                                 <el-image :src="pic.url"></el-image>

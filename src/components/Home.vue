@@ -13,7 +13,7 @@
                     <div><i class="el-icon-arrow-right"></i></div>
                 </div>
             </div>
-            <div :class="{outbox: true, ischacked: actived=='percenter'}" @click="oneactive('percenter')">
+            <div v-show="isLognIn" :class="{outbox: true, ischacked: actived=='percenter'}" @click="oneactive('percenter')">
                 <div :class="{littleBox: actived=='percenter', littleBoxOff: actived !='percenter'}"></div>
                 <div class="inbox">
                     <div>
@@ -23,7 +23,7 @@
                     <div><i class="el-icon-arrow-right"></i></div>
                 </div>
             </div>
-            <div :class="{outbox: true, ischacked: actived=='shopcenter'}" @click="oneactive('shopcenter')">
+            <div v-show="isLognIn" :class="{outbox: true, ischacked: actived=='shopcenter'}" @click="oneactive('shopcenter')">
                 <div :class="{littleBox: actived=='shopcenter', littleBoxOff: actived !='shopcenter'}"></div>
                 <div class="inbox">
                     <div>
@@ -44,14 +44,24 @@
 export default {
     data() {
         return {
-            actived: 'homepage'
+            actived: 'homepage',
+            isLognIn: false
         }
     },
     methods: {
         oneactive(data) {
             this.actived = data
             this.$router.push(`/home/${data}`);
+        },
+        isLognInNow() {
+            const state = window.localStorage.getItem('USERNAME')
+            if(state) {
+                this.isLognIn = true
+            }
         }
+    },
+    created() {
+        this.isLognInNow()
     }
 }
 </script>

@@ -1,5 +1,10 @@
 <template>
     <div class="login_con">
+        <div>
+            <div class="SignIn"  @click="gotoSignin">
+                SignIn
+            </div>
+        </div>
         <div class="animates">
             <ul>
                 <li></li>
@@ -15,7 +20,7 @@
         </div>
         <div class="login_box">
             <!-- <h3>登陆</h3> -->
-            <div class="fonts">登陆</div>
+            <div class="fonts">注册</div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                 <el-form-item  prop="id" class="name">
                     <el-input v-model="ruleForm.id" placeholder="请输入账号"></el-input>
@@ -24,13 +29,9 @@
                     <el-input type="password" v-model="ruleForm.password" placeholder="请输入密码" show-password></el-input>
                 </el-form-item>
                 <el-form-item style="align-self: center;">
-                    <el-button type="primary" @click="submitForm" round style="background-color: rgba(94,165,155,1); border-color:#fff; width: 90px;">登陆</el-button>
+                    <el-button type="primary" @click="submitForm" round style="background-color: rgba(94,165,155,1); border-color:#fff; width: 90px;">注册</el-button>
                 </el-form-item>
             </el-form>
-            <div class="boxfooter">
-                <div>忘记密码</div>
-                <div @click="signUp">注册</div>
-            </div>
             <div class="boxbuttom">
                 <div><i class="fa fa-qq"></i></div>
                 <div><i class="fa fa-weixin"></i></div>
@@ -60,38 +61,39 @@ export default {
     },
     methods: {
         submitForm() {
-            // let that = this
-            this.$refs['ruleForm'].validate(async (valid) => {
+             this.$refs['ruleForm'].validate(async (valid) => {
                 if (valid) {
                     console.log(this.ruleForm)
                     //登陆方法
-                    await this.$store.dispatch('logIn', this.ruleForm)
-                    // this.$router.push("/home")
-                    const state = window.localStorage.getItem('USERNAME')
-                    if(state) {
+                    const {data: res} = await this.$http.post('http://localhost:3000/profile', this.ruleForm)//测试数据
+                    if(res.id) {//测试数据
                          this.$message({
-                          message:"登陆成功",
+                          message:"注册成功",
                           type:'success'
                         })
-                        this.$router.push("/home")
+                        setTimeout(() => {
+                            this.$router.push("/login")
+                        }, 1000);
                     } else {
                         this.$message({
-                          message:"登陆失败",
+                          message:"注册失败",
                           type:'error'
                         })
+                        this.$refs['ruleForm'].resetFields();
                         return false;
                     }
                 } else {
                     this.$message({
-                        message:"请输入账号密码",
+                        message:"请输入合法账号密码",
                         type:'error'
                     })
+                    // this.$refs['numberValidateForm'].resetFields();
                     return false;
                 }
             });
         },
-        signUp() {
-            this.$router.push("/signup")
+        gotoSignin() {
+            this.$router.push("/login")
         }
     }
 }
@@ -107,6 +109,24 @@ export default {
     display: grid;
     grid-template-columns: 55% auto 5%;
     grid-template-rows: 20% auto 15%;
+}
+.SignIn {
+    width: 70px;
+    font-size: 1.3em;
+    font-family: '时尚中黑简体';
+    text-align: center;
+    padding: 5px;
+    border: solid 1px rgba(38,71,62,1);
+    border-radius: 8px;
+    /* background: #5F928C; */
+    color: #fff;
+    background: #5F928C;
+    cursor: pointer;
+    margin: 15px 0 0 20px;
+}
+.SignIn:hover {
+    color: #5F928C;
+    background: #fff;
 }
 .login_box {
     width: 400px;

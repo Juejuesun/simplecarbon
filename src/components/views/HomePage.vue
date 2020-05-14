@@ -2,9 +2,18 @@
     <el-container class="con">
         <el-header class="headerview">
             <div>
-                <div v-show="false" class="login" @click="loginNow">登陆</div>
-                <div>
-                    <div class="usercount">ViTTo<i class="el-icon-arrow-down icomenu"></i></div>
+                <div v-if="!isLognIn" class="login" @click="loginNow">登陆</div>
+                <div v-else style="display: flex; align-items: center;">
+                    <el-avatar style="border: solid 1px rgba(51,102,101,1); margin-right: 5px;" :size="25" :src="userInfo.avatar">{{userInfo.userName}}</el-avatar>
+                    <el-popover placement="bottom" trigger="hover" >
+                        <div>
+                            <h3 class="hoverdown">个人中心</h3>
+                            <h3 class="hoverdown" @click="logOut">退出</h3>
+                        </div>
+                        <div slot="reference">
+                            <div class="usercount">{{userInfo.userName}}<i class="el-icon-arrow-down icomenu"></i></div>
+                        </div>
+                    </el-popover>
                 </div>
             </div>
         </el-header>
@@ -21,16 +30,42 @@
 import CityRank from '../views/homepage/CityRank'
 import MyIntegral from '../views/homepage/MyIntegral'
 import MyTasks from '../views/homepage/MyTasks'
+import {mapState} from 'vuex'
+
 export default {
     components: {
         CityRank,
         MyIntegral,
         MyTasks
     },
+    data() {
+        return {
+            isLognIn: false,
+        }
+    },
     methods: {
         loginNow() {
             this.$router.push('/login');
+        },
+        logOut() {
+            window.localStorage.clear()
+            setTimeout(() => {
+                this.isLognIn = false
+                this.$router.push("/login")
+            }, 1000);
+        },
+        isLognInNow() {
+            const state = window.localStorage.getItem('USERNAME')
+            if(state) {
+                this.isLognIn = true
+            }
         }
+    },
+    created() {
+        this.isLognInNow()
+    },
+    computed: {
+        ...mapState(['userInfo'])
     }
 }
 </script>
@@ -64,5 +99,16 @@ export default {
     grid-row-start: 1;
     grid-row-end: 3;
     justify-self: center;
+}
+
+.hoverdown {
+    font-family: '时尚中黑简体';
+    text-align: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 10px;
+}
+.hoverdown:hover {
+    background: rgba(229,239,239,1);
 }
 </style>

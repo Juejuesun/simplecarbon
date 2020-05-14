@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login'
+import Signup from '../components/Signup'
 import Home from '../components/Home'
 import HomePage from '../components/views/HomePage'
 import PerCenter from '../components/views/PerCenter'
@@ -20,7 +21,12 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/home'
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup
   },
   {
     path: '/login',

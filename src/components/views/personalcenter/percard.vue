@@ -3,8 +3,8 @@
         <el-container class="boxcon">
             <el-header class="boxheader">
                 <div class="block1">
-                    <div><el-avatar style="border: solid 1px rgba(51,102,101,1); margin-right: 10px;" :size="40" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">VITTO</el-avatar></div>
-                    <div>VITTO</div>
+                    <div><el-avatar style="border: solid 1px rgba(51,102,101,1); margin-right: 10px;" :size="40" :src="userInfo.avatar">{{userInfo.userName}}</el-avatar></div>
+                    <div>{{userInfo.userName}}</div>
                 </div>
                 <!-- 按钮控制 -->
                 <div v-if="showCard" @click="changeCard(false)"><i class="el-icon-arrow-right iconin"></i></div>
@@ -18,13 +18,13 @@
                                 <div>碳积分：<span>826</span></div>
                             </div>
                             <div  class="scket">
-                                <div>SCKET IT</div>
+                                <div>{{userInfo.userShake}}</div>
                             </div>
                         </div>
                     </div>
                     <div>
                         <el-carousel height="200px" indicator-position="outside">
-                            <el-carousel-item v-for="pic in picurls" :key="pic">
+                            <el-carousel-item v-for="(pic, imgindex) in picurls" :key="imgindex">
                                 <el-image :src="pic.url"></el-image>
                             </el-carousel-item>
                         </el-carousel>
@@ -35,14 +35,14 @@
                         <div class="textbox">
                             <div>身份认证</div>
                             <div class="textend">
-                                <span class="usne">已实名</span>
-                                <span>VITTO</span>
+                                <span class="usne">{{userInfo.userState}}</span>
+                                <span>{{userInfo.userName}}</span>
                             </div>
                         </div>
                         <div class="textbox">
                             <div>简碳账号</div>
                             <div class="textend">
-                                <span>133******03</span>
+                                <span>{{userInfo.userId}}</span>
                             </div>
                         </div>
                         <div class="textbox">
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     data() {
         return {
@@ -80,6 +82,9 @@ export default {
         changeCard(bool) {
             this.showCard = bool
         }
+    },
+    computed: {
+        ...mapState(['userInfo'])
     }
 }
 </script>
