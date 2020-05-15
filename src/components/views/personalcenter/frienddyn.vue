@@ -3,6 +3,7 @@
         <el-card class="box-card" shadow="never" :body-style="{ padding: '0px' }">
             <el-container class="boxcon" style="height: 443px;">
                 <el-main class="boxbody">
+                <vuescroll :ops="ops">
                     <el-card class="frddynCard" shadow="never" :body-style="{ padding: '0px' }" v-for="(dyn, index) in dyndata" :key="index">
                         <el-container class="boxcon">
                             <el-header class="boxheader">
@@ -42,7 +43,7 @@
                                             <el-carousel-item v-for="(pic, imgindex) in picurls" :key="imgindex">
                                                 <!-- <h3 class="small">{{ item }}</h3>
                                              -->
-                                                <el-image :src="pic.url"></el-image>
+                                                <el-image :src="pic.url" fit="cover"></el-image>
                                             </el-carousel-item>
                                         </el-carousel>
                                     </div>
@@ -52,7 +53,7 @@
                             </el-footer>
                         </el-container>
                     </el-card>
-
+                </vuescroll>
                 </el-main>
             </el-container>
         </el-card>
@@ -71,7 +72,12 @@
 </template>
 
 <script>
+import vuescroll from 'vuescroll'
+
 export default {
+    components: {
+        vuescroll
+    },
     data() {
         return {
             showCard: true,
@@ -104,7 +110,21 @@ export default {
                 {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
                 {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
                 {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
-            ]
+            ],
+            ops: {
+                vuescroll: {},
+                scrollPanel: {},
+                rail: {
+                    keepShow: true
+                },
+                bar: {
+                    hoverStyle: true,
+                    onlyShowBarOnScroll: true, //是否只有滚动的时候才显示滚动条
+                    background: "#909399",//滚动条颜色
+                    opacity: 0.5,//滚动条透明度
+                    "overflow-x": "hidden"
+                }
+            }
         }
     },
     methods: {

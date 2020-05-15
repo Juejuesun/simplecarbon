@@ -15,7 +15,7 @@
                     <div>
                         <div class="block2">
                             <div  class="ings">
-                                <div>碳积分：<span>826</span></div>
+                                <div>碳积分：<span>{{countInfo.userScore}}</span></div>
                             </div>
                             <div  class="scket">
                                 <div>{{userInfo.userShake}}</div>
@@ -48,13 +48,13 @@
                         <div class="textbox">
                             <div>碳积分</div>
                             <div class="textend">
-                                <span>826</span>
+                                <span>{{countInfo.userScore}}</span>
                             </div>
                         </div>
                         <div class="textbox">
                             <div>账户余额</div>
                             <div class="textend">
-                                <span>13.5 元</span>
+                                <span>{{countInfo.userAccount}} 元</span>
                             </div>
                         </div>
                     </el-card>
@@ -84,7 +84,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['userInfo'])
+        ...mapState(['userInfo','countInfo'])
     }
 }
 </script>

@@ -7,13 +7,15 @@
                 </template>
                 <el-container style="height: 150px;">
                     <el-main class="mainbox">
-                        <div v-for="(tables,index) in tableData" :key="index">
+                    <vuescroll :ops="ops">
+                        <div v-for="(tables,index) in tableDayData" :key="index">
                             <div class="tablebox">
-                                <div>{{tables.data}}</div>
-                                <div>{{tables.totals}}</div>
-                                <div style="justify-self: end;">{{tables.tools}}</div>
+                                <div>{{tables.scoreRecordNum}}</div>
+                                <!-- <div>{{tables.totals}}</div> -->
+                                <div style="justify-self: end;">{{tables.scoreRecordType}}</div>
                             </div>
                         </div>
+                    </vuescroll>
                     </el-main>
                 </el-container>
             </el-collapse-item>
@@ -23,13 +25,15 @@
                 </template>
                 <el-container style="height: 150px;">
                     <el-main class="mainbox">
-                    <div v-for="(tables,index) in tableData" :key="index">
-                        <div class="tablebox">
-                            <div>{{tables.data}}</div>
-                            <div>{{tables.totals}}</div>
-                            <div style="justify-self: end;">{{tables.tools}}</div>
+                    <vuescroll :ops="ops">
+                        <div v-for="(tables,index) in tableWeekData" :key="index">
+                            <div class="tablebox">
+                                <div>{{tables.scoreRecordNum}}</div>
+                                <!-- <div>{{tables.totals}}</div> -->
+                                <div style="justify-self: end;">{{tables.scoreRecordType}}</div>
+                            </div>
                         </div>
-                    </div>
+                    </vuescroll>
                     </el-main>
                 </el-container>
             </el-collapse-item>
@@ -39,13 +43,15 @@
                 </template>
                 <el-container style="height: 150px;">
                     <el-main class="mainbox">
-                        <div v-for="(tables,index) in tableData" :key="index">
+                    <vuescroll :ops="ops">
+                        <div v-for="(tables,index) in tableMonthData" :key="index">
                             <div class="tablebox">
-                                <div>{{tables.data}}</div>
-                                <div>{{tables.totals}}</div>
-                                <div style="justify-self: end;">{{tables.tools}}</div>
+                                <div>{{tables.scoreRecordNum}}</div>
+                                <!-- <div>{{tables.totals}}</div> -->
+                                <div style="justify-self: end;">{{tables.scoreRecordType}}</div>
                             </div>
                         </div>
+                    </vuescroll>
                     </el-main>
                 </el-container>
             </el-collapse-item>
@@ -61,19 +67,23 @@
                             type="date"
                             size="mini"
                             style="width: 150px"
-                            placeholder="选择日期">
+                            placeholder="选择日期"
+                            format="MM 月 dd 日"
+                            value-format="yyyy-MM-dd">
                             </el-date-picker>
-                            <el-button size="mini">确定</el-button>
+                            <el-button size="mini" @click="checkSomeDay">确定</el-button>
                         </div>
                     </el-header>
                     <el-main class="mainbox">
-                        <div v-for="(tables,index) in tableData" :key="index">
+                    <vuescroll :ops="ops">
+                        <div v-for="(tables,index) in tableCheckhData" :key="index">
                             <div class="tablebox">
-                                <div>{{tables.data}}</div>
-                                <div>{{tables.totals}}</div>
-                                <div style="justify-self: end;">{{tables.tools}}</div>
+                                <div>{{tables.scoreRecordNum}}</div>
+                                <!-- <div>{{tables.totals}}</div> -->
+                                <div style="justify-self: end;">{{tables.scoreRecordType}}</div>
                             </div>
                         </div>
+                    </vuescroll>
                     </el-main>
                 </el-container>
             </el-collapse-item>
@@ -82,39 +92,113 @@
 </template>
 
 <script>
+import vuescroll from 'vuescroll'
+import {mapState} from 'vuex'
+
 export default {
+    components: {
+        vuescroll
+    },
     data() {
         return {
             activeNames: '1',
             value1: '',
             tableData: [
                 {
-                    data: '+2',
-                    totals: '826',
-                    tools: '公交'
+                    scoreRecordNum: 2,
+                    scoreRecordTime: '2020-05-11',
+                    scoreRecordType: '公交'
                 },
                 {
-                    data: '+1',
-                    totals: '827',
-                    tools: '步行'
+                    scoreRecordNum: 1,
+                    scoreRecordTime: '2020-05-13',
+                    scoreRecordType: '步行'
                 },
                 {
-                    data: '-100',
-                    totals: '727',
-                    tools: '现金交易'
+                    scoreRecordNum: -100,
+                    scoreRecordTime: '2020-05-13',
+                    scoreRecordType: '现金交易'
                 },
                 {
-                    data: '+2',
-                    totals: '729',
-                    tools: '绿色购物'
+                    scoreRecordNum: 2,
+                    scoreRecordTime: '2020-05-13',
+                    scoreRecordType: '绿色购物'
                 },
                 {
-                    data: '+2',
-                    totals: '801',
-                    tools: '公交'
-                },
+                    scoreRecordNum: 2,
+                    scoreRecordTime: '2020-05-13',
+                    scoreRecordType: '公交'
+                }
             ],
+            tableDayData: [],
+            tableWeekData: [],
+            tableMonthData: [],
+            tableCheckhData: [],
+            ops: {
+                vuescroll: {},
+                scrollPanel: {},
+                rail: {
+                    keepShow: true
+                },
+                bar: {
+                    hoverStyle: true,
+                    onlyShowBarOnScroll: true, //是否只有滚动的时候才显示滚动条
+                    background: "#909399",//滚动条颜色
+                    opacity: 0.5,//滚动条透明度
+                    "overflow-x": "hidden"
+                }
+            }
         }
+    },
+    computed: {
+        ...mapState(['userInfo'])
+    },
+    methods: {
+        async getInfo() {
+            let asc = {
+                id: this.userInfo.userId
+            }
+            asc = this.tableData //测试数据
+            const {data: res1} = await this.$http.post('http://localhost:3000/getInfo', asc)//测试接口
+            const {data: res2} = await this.$http.post('http://localhost:3000/getInfo', asc)
+            const {data: res3} = await this.$http.post('http://localhost:3000/getInfo', asc)
+            let resDay = this.changeNum(res1)
+            let resWeek = this.changeNum(res2)
+            let resMonth = this.changeNum(res3)
+            
+            this.tableDayData = resDay
+            // console.log( this.tableDayData)
+            this.tableWeekData = resWeek
+            // console.log(this.tableWeekData)
+            this.tableMonthData = resMonth
+            // console.log(this.tableMonthData)
+        },
+        async checkSomeDay() {
+            let asc = {
+                id: this.userInfo.userId,
+                date: this.value1
+            }
+            // console.log(asc)
+            asc = this.tableData //测试数据
+            const {data: res} = await this.$http.post('http://localhost:3000/getInfo', asc)//测试接口
+            let resOne = this.changeNum(res)
+            this.tableCheckhData = resOne
+        },
+        changeNum(data) {
+            const len = data.length
+            for(let i=0; i<len; i++ ) {
+                let temp = data[i].scoreRecordNum
+                if(temp>0) {
+                    data[i].scoreRecordNum = '+'+temp
+                } else {
+                    data[i].scoreRecordNum = String(temp)
+                }
+            }
+            return data
+        }
+    },
+    created() {
+        this.getInfo()
     }
 }
 </script>
@@ -145,7 +229,8 @@ export default {
     color: #414545;
 
     display: grid;
-    grid-template-columns: repeat(3, 33.3%);
+    grid-template-columns: repeat(2, 50%);
+    padding: 0 10px 0 10px;
     
 }
 .datebox {

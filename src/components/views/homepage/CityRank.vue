@@ -9,40 +9,36 @@
                 </div>
                 <!-- 表格区 -->
                 <div>
-                    <!-- 表头 -->
-                    <div class="tableheaderstyle">
-                        <div @click="getrankData">排名</div>
-                        <div>城市</div>
-                        <div>指数</div>
-                    </div>
-                    <div>
-                        <vuescroll :ops="ops" ref="vs" style="width:100%;height:100%">
-                        <el-table
-                            :data="tableData"
-                            stripe
-                            height="220"
-                            :header-row-class-name="rowheaders"
-                            :show-header="hiddenTableHeader"
-                            size="mini"
-                            style="width: 100%; font-size: 15px; height: 220px; font-family: '时尚中黑简体';">
-                            <el-table-column
-                                prop="num"
-                                label="排名"
-                                align="center">
-                            </el-table-column>
-                            <el-table-column
-                                prop="area"
-                                label="城市"
-                                align="center">
-                            </el-table-column>
-                            <el-table-column
-                                prop="aqi"
-                                label="指数"
-                                align="center">
-                            </el-table-column>
-                        </el-table>
-                        </vuescroll>
-                    </div>
+                <!-- 表头 -->
+                <div class="tableheaderstyle">
+                    <div @click="getrankData">排名</div>
+                    <div>城市</div>
+                    <div>指数</div>
+                </div>
+                    <el-table
+                        :data="tableData"
+                        stripe
+                        height="240"
+                        :header-row-class-name="rowheaders"
+                        :show-header="hiddenTableHeader"
+                        size="mini"
+                        style="width: 99%; font-size: 15px; height: 220px; font-family: '时尚中黑简体';">
+                        <el-table-column
+                            prop="num"
+                            label="排名"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="area"
+                            label="城市"
+                            align="center">
+                        </el-table-column>
+                        <el-table-column
+                            prop="aqi"
+                            label="指数"
+                            align="center">
+                        </el-table-column>
+                    </el-table>
                 </div>
             </el-main>
         </el-container>
@@ -50,12 +46,7 @@
 </template>
 
 <script>
-import vuescroll from 'vuescroll';
-
 export default {
-    components: {
-        vuescroll
-    },
     data() {
         return {
             city: '',
@@ -93,24 +84,7 @@ export default {
                 aqi: '21'
                 }],
             cityData: [],
-            hiddenTableHeader: false,
-            ops: {
-                vuescroll: {
-                    // wheelScrollDuration: 0,
-                    // wheelDirectionReverse: false
-                },
-                scrollPanel: {},
-                rail: {
-                    keepShow: true
-                },
-                bar: {
-                    hoverStyle: true,
-                    onlyShowBarOnScroll: true, //是否只有滚动的时候才显示滚动条
-                    background: "#909399",//滚动条颜色
-                    opacity: 0.5,//滚动条透明度
-                    "overflow-x": "hidden"
-                }
-            }
+            hiddenTableHeader: false,            
         }
     },
     methods: {

@@ -20,8 +20,8 @@
                 </el-form>
                 
                 <div class="pointfont">
-                    <div class="dhai">拥有积分：<span>234</span></div>
-                    <div>今日报价：<span>10 分 = 0.8 元</span></div>
+                    <div class="dhai">拥有积分：<span>{{countInfo.userScore}}</span></div>
+                    <div>今日报价：<span>10 分 = {{scorePrice}} 元</span></div>
                 </div>
                 <div>
                     <div @click="changeCash" class="changebtn">兑换</div>
@@ -30,8 +30,8 @@
                     width="25%"
                     height="30%">
                         <div class="chacked">
-                            <div style="align-self: center; margin: 10px">兑换现金：<span>8</span>元</div>
-                            <div style="align-self: center; margin: 10px">剩    余：<span>826</span></div>
+                            <div style="align-self: center; margin: 10px">兑换现金：<span>{{changeNum}}</span>元</div>
+                            <div style="align-self: center; margin: 10px">剩    余：<span>{{afterAccount}}</span></div>
                         </div>
                         <div slot="footer" class="dialog-footer">
                             <div @click="dialogVisible = false" class="donebtn">取消</div>
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
     data() {
         return {
@@ -64,14 +65,21 @@ export default {
             bussdone: false,
             numberValidateForm: {
                 num: ''
-            }
+            },
+            changeNum: 0,
+            afterAccount: 0
         }
+    },
+    computed: {
+        ...mapState(['scorePrice','countInfo'])
     },
     methods: {
         changeCash() {
             this.$refs['numberValidateForm'].validate((valid) => {
                 if (valid) {
                     // alert('submit!');
+                    this.changeNum = (this.numberValidateForm.num*this.scorePrice).toFixed(2)
+                    this.afterAccount = this.countInfo.userScore - this.numberValidateForm.num
                     this.dialogVisible = true
                     // this.$refs['numberValidateForm'].resetFields();
                 } else {
@@ -85,8 +93,10 @@ export default {
             // his.dialogVisible = true
             // this.dyndata[index].isFollowed = true
         },
-        exchange() {
+        async exchange() {
             // axios请求
+            await this.$store.dispatch('changeMoney',this.numberValidateForm.num)
+
             this.dialogVisible = false
             this.bussdone = true
             this.$refs['numberValidateForm'].resetFields();

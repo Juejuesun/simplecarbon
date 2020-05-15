@@ -58,6 +58,8 @@ export default {
             const state = window.localStorage.getItem('USERNAME')
             if(state) {
                 this.isLognIn = true
+                this.$store.dispatch('getTodayData')
+                this.$store.dispatch('updateInfo')
             }
         }
     },
