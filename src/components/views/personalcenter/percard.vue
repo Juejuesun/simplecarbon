@@ -24,7 +24,7 @@
                     </div>
                     <div>
                         <el-carousel height="200px" indicator-position="outside">
-                            <el-carousel-item v-for="(pic, imgindex) in picurls" :key="imgindex">
+                            <el-carousel-item v-for="(pic, imgindex) in userPhyImg" :key="imgindex">
                                 <el-image :src="pic.url"></el-image>
                             </el-carousel-item>
                         </el-carousel>
@@ -84,7 +84,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['userInfo','countInfo'])
+        ...mapState(['userInfo','countInfo','userPhyImg'])
     }
 }
 </script>

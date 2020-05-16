@@ -4,7 +4,7 @@
             <el-container class="boxcon" style="height: 443px;">
                 <el-main class="boxbody">
                 <vuescroll :ops="ops">
-                    <el-card class="frddynCard" shadow="never" :body-style="{ padding: '0px' }" v-for="(dyn, index) in dyndata" :key="index">
+                    <el-card class="frddynCard" shadow="never" :body-style="{ padding: '0px' }" v-for="(dyn, index) in dyndatas" :key="index">
                         <el-container class="boxcon">
                             <el-header class="boxheader">
                                 <div class="block1">
@@ -14,7 +14,7 @@
                                 <!-- 按钮控制 -->
                                 <div class="btns">
                                     <div class="btns">
-                                        <div class="iconbtns" v-if="!dyn.isFollowed" @click="followIt(index)">
+                                        <div class="iconbtns" v-if="dyn.isFollowed!='1'" @click="followIt(index)">
                                             <i class="el-icon-plus"></i>
                                         </div>
                                         <div class="iconbtns" v-else>
@@ -40,7 +40,7 @@
                                     </div>
                                     <div>
                                         <el-carousel height="140px" :loop="false" indicator-position="none">
-                                            <el-carousel-item v-for="(pic, imgindex) in picurls" :key="imgindex">
+                                            <el-carousel-item v-for="(pic, imgindex) in dyn.images" :key="imgindex">
                                                 <!-- <h3 class="small">{{ item }}</h3>
                                              -->
                                                 <el-image :src="pic.url" fit="cover"></el-image>
@@ -73,6 +73,7 @@
 
 <script>
 import vuescroll from 'vuescroll'
+import {mapState} from 'vuex'
 
 export default {
     components: {
@@ -80,37 +81,55 @@ export default {
     },
     data() {
         return {
-            showCard: true,
             dialogVisible: false,
             dyndata: [
                 {
                     name: 'VITTO',
                     totals: '826',
                     slogn: 'SCKET IT',
-                    isFollowed: false,
-                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+                    isFollowed: '0',
+                    friendId: '12345',
+                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+                    images: [
+                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+                    ]
                 },
                 {
                     name: 'SUMMER',
                     totals: '310',
                     slogn: 'Go And See',
-                    isFollowed: false,
-                    avantar: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+                    isFollowed: '0',
+                    friendId: '12345',
+                    avantar: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                    images: [
+                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+                    ]
                 },
                 {
                     name: 'SNAP',
                     totals: '540',
                     slogn: 'Go And Get',
-                    isFollowed: true,
-                    avantar: ''
+                    isFollowed: '1',
+                    friendId: '12345',
+                    avantar: '',
+                    images: [
+                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+                    ]
                 },
                 
             ],
-            picurls: [
-                {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
-                {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
-                {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
-            ],
+            dyndatas: [],
+            // picurls: [
+            //     {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+            //     {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+            //     {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+            // ],
             ops: {
                 vuescroll: {},
                 scrollPanel: {},
@@ -127,13 +146,66 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapState(['userInfo','countInfo'])
+    },
     methods: {
-        changeCard(bool) {
-            this.showCard = bool
+        async followIt(index) {
+            let asc = {
+                userid: this.userInfo.userId,
+                friendId: this.dyndatas[index].friendId
+            }
+            // asc = {//测试数据
+            //     state: "1"
+            // }
+            // const {data: res} = await this.$http.post('http://localhost:3000/comments', asc)//测试接口
+            const {data: res} = await this.$http.post('http://localhost:8080/SimpleCarbon/followSomeone.action', asc)//正式接口 关注好友
+            if(res) {
+                // console.log(res)
+                if(res.state=='1') {
+                    this.dialogVisible = true
+                    this.dyndatas[index].isFollowed = '1'
+                }else {
+                    this.$message({
+                        message:"网络错误",
+                        type:'error'
+                    })
+                    return false;
+                }
+            }else {
+                this.$message({
+                    message:"网络错误",
+                    type:'error'
+                })
+                return false;
+            }
         },
-        followIt(index) {
-            this.dialogVisible = true
-            this.dyndata[index].isFollowed = true
+        async getFriendRank(apis) {
+            let asc = {
+                id: this.userInfo.userId
+            }
+            // asc = this.dyndata//测试数据
+            // const {data: res} = await this.$http.post(`http://localhost:3000/${apis}`, asc)//测试接口
+            const {data: res} = await this.$http.post(`http://localhost:8080/SimpleCarbon/${apis}`, asc)//正式接口 获取列表
+            if(res) {
+                console.log(res)
+                this.dyndatas = res
+            }
+        }
+    },
+    mounted() {
+        if( this.$route.query.rc == 'friend') {
+            // this.rankName = '好友排行榜'
+            // this.getFriendRank('getInfo')//测试数据
+            this.getFriendRank('friendTop10.action')//正式
+        }
+        if( this.$route.query.rc == 'city') {
+            // this.rankName = '城市排行榜'
+            this.getFriendRank('cityTop10.action')
+        }
+        if( this.$route.query.rc == 'country') {
+            // this.rankName = '全国排行榜'
+            this.getFriendRank('countryTop10.action')
         }
     }
 }

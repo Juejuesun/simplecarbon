@@ -4,7 +4,7 @@
             <div class="btnbox">
                 <div style="font-size: 24px; margin: 5px;">COUOON</div>
                 <div style="font-size: 36px; margin: 5px;">180</div>
-                <div class="checkbtn" @click="changeCash">兑换</div>
+                <div class="checkbtn" @click="changeCash(180)">兑换</div>
             </div>
             <div class="imgbox1" style="height: 96px; width: 190px;">
                 <el-image src="https://pic.downk.cc/item/5ebc0c9ec2a9a83be586fc11.png"></el-image>
@@ -24,7 +24,7 @@
             <div class="btnbox">
                 <div style="font-size: 24px; margin: 5px;">Sait & pepper Grinder  </div>
                 <div style="font-size: 36px; margin: 5px;">200</div>
-                <div class="checkbtn" @click="changeCash">兑换</div>
+                <div class="checkbtn" @click="changeCash(200)">兑换</div>
             </div>
         </div>
         <!-- 第三个 -->
@@ -32,7 +32,7 @@
             <div class="btnbox">
                 <div style="font-size: 24px; margin: 5px;">THERMO POT</div>
                 <div style="font-size: 36px; margin: 5px;">230</div>
-                <div class="checkbtn" @click="changeCash">兑换</div>
+                <div class="checkbtn" @click="changeCash(230)">兑换</div>
             </div>
             <div class="imgbox1">
                 <el-image src="https://pic.downk.cc/item/5ebc1287c2a9a83be58e0e1c.png"></el-image>
@@ -49,9 +49,9 @@
             width="25%"
             height="30%">
                 <div class="chacked">
-                    <div style="align-self: center; margin: 10px">拥有：<span>726</span></div>
-                    <div style="align-self: center; margin: 10px">扣除：<span>180</span></div>
-                    <div style="align-self: center; margin: 10px">剩余：<span>546</span></div>
+                    <div style="align-self: center; margin: 10px">拥有：<span>{{countInfo.userScore}}</span></div>
+                    <div style="align-self: center; margin: 10px">扣除：<span>{{num}}</span></div>
+                    <div style="align-self: center; margin: 10px">剩余：<span>{{afterAccount}}</span></div>
                 </div>
                 <div slot="footer" class="dialog-footer">
                     <div @click="dialogVisible = false" class="donebtn">取消</div>
@@ -70,26 +70,52 @@
                     <div @click="bussdone = false" class="donebtn2">完成</div>
                 </div>
             </el-dialog>
+            <!-- 第三个 -->
+            <el-dialog
+            :visible.sync="inable"
+            width="25%"
+            height="30%">
+                <div class="chacked2">
+                    <h1>积分不足</h1>
+                </div>
+                <div slot="footer" class="dialog-footer2">
+                    <div @click="inable = false" class="donebtn2">确定</div>
+                </div>
+            </el-dialog>
         </div>
-        
-
     </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     data() {
         return {
             dialogVisible: false,
             bussdone: false,
+            inable: false,
+            num: 0,
+            afterAccount: 0
         }
     },
+    computed: {
+        ...mapState(['countInfo'])
+    },
     methods: {
-        changeCash() {
-            this.dialogVisible = true
+        changeCash(num) {
+            this.num = num
+            this.afterAccount = this.countInfo.userScore - this.num
+            if(this.afterAccount>=0) {
+                this.dialogVisible = true
+            }else {
+                this.inable = true
+            }
         },
-        exchange() {
+        async exchange() {
             // axios请求
+            await this.$store.dispatch('changeThings', this.num)
+            
             this.dialogVisible = false
             this.bussdone = true
         }

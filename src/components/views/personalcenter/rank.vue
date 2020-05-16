@@ -6,12 +6,12 @@
                     <div>{{rankName}}</div>
                 </el-header>
                 <el-main class="boxbody">
-                    <div v-for="(rank, index) in rankData" :key="index" class="rankInLine">
+                    <div v-for="(rank, index) in rankDatas" :key="index" class="rankInLine">
                         <div>{{rank.ranking}}</div>
                         <div>
                             <el-avatar style="border: solid 1px rgba(51,102,101,1); margin-right: 10px;" :size="20" :src="rank.avantar">{{rank.name}}</el-avatar>
                         </div>
-                        <div @click="followIt(index)"><i class="el-icon-plus" v-show="!rank.isFollowed"></i></div>
+                        <div @click="followIt(index)"><i class="el-icon-plus" v-show="rank.isFollowed!='1'"></i></div>
                         <div>{{rank.name}}</div>
                         <div style="justify-self: end;">{{rank.totals}}</div>
                     </div>
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     data() {
         return {
@@ -39,38 +41,69 @@ export default {
                     ranking: 1,
                     name: 'JAME',
                     totals: '2340',
-                    isFollowed: false,
-                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+                    isFollowed: '0',
+                    friendId: '12345',
+                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+                    images: [
+                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+                    ]
                 },
                 {
                     ranking: 2,
                     name: 'SUMMER',
                     totals: '1348',
-                    isFollowed: true,
-                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+                    isFollowed: '1',
+                    friendId: '12345',
+                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+                    images: [
+                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+                    ]
                 },
                 {
                     ranking: 3,
                     name: 'VITTO',
                     totals: '1230',
-                    isFollowed: false,
-                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+                    isFollowed: '0',
+                    friendId: '12345',
+                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+                    images: [
+                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+                    ]
                 },
                 {
                     ranking: 4,
                     name: 'MOYO',
                     totals: '1193',
-                    isFollowed: false,
-                    avantar: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+                    isFollowed: '0',
+                    friendId: '12345',
+                    avantar: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                    images: [
+                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+                    ]
                 },
                 {
                     ranking: 5,
                     name: 'SNAP',
                     totals: '1092',
-                    isFollowed: true,
-                    avantar: ''
+                    isFollowed: '1',
+                    friendId: '12345',
+                    avantar: '',
+                    images: [
+                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
+                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
+                    ]
                 },
             ],
+            rankDatas: [],
             dialogVisible: false,
             rankNames: {
                 friend: '好友排行榜',
@@ -80,21 +113,66 @@ export default {
             rankName: '好友排行榜'
         }
     },
+    computed: {
+        ...mapState(['userInfo','countInfo'])
+    },
     methods: {
-        followIt(index) {
-            this.dialogVisible = true
-            this.rankData[index].isFollowed = true
+        async followIt(index) {
+            let asc = {
+                userid: this.userInfo.userId,
+                friendId: this.rankDatas[index].friendId
+            }
+            // asc = {//测试数据
+            //     state: "1"
+            // }
+            // const {data: res} = await this.$http.post('http://localhost:3000/comments', asc)//测试接口 关注好友
+            const {data: res} = await this.$http.post('http://localhost:8080/SimpleCarbon/followSomeone.action', asc)//正式接口
+            if(res) {
+                // console.log(res)
+                if(res.state=='1') {
+                    this.dialogVisible = true
+                    this.rankDatas[index].isFollowed = '1'
+                }else {
+                    this.$message({
+                        message:"网络错误",
+                        type:'error'
+                    })
+                    return false;
+                }
+            }else {
+                this.$message({
+                    message:"网络错误",
+                    type:'error'
+                })
+                return false;
+            }
+        },
+        async getFriendRank(apis) {
+            let asc = {
+                id: this.userInfo.userId
+            }
+            // asc = this.rankData//测试数据
+            // const {data: res} = await this.$http.post(`http://localhost:3000/${apis}`, asc)//测试接口 获取列表
+            const {data: res} = await this.$http.post(`http://localhost:8080/SimpleCarbon/${apis}`, asc)//正式接口
+
+            if(res) {
+                console.log(res)
+                this.rankDatas = res
+            }
         }
     },
     mounted() {
         if( this.$route.query.rc == 'friend') {
             this.rankName = '好友排行榜'
+            this.getFriendRank('getInfo')
         }
         if( this.$route.query.rc == 'city') {
             this.rankName = '城市排行榜'
+            this.getFriendRank('getInfo')
         }
         if( this.$route.query.rc == 'country') {
             this.rankName = '全国排行榜'
+            this.getFriendRank('getInfo')
         }
     }
 }

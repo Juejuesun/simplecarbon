@@ -119,7 +119,26 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  // mode: 'hash', 
+  // base: '/mysmb/',
   routes
+})
+
+//挂载路由导航守卫
+router.beforeEach((to,from,next) => {
+  //to要访问的路径
+  //from代表从哪个路径跳转而来
+  //next是一个函数，表示放行
+  //next() 放行 next('/login) 强制跳转
+
+  if(to.path === '/login') return next();
+  if(to.path === '/signup') return next();
+  if(to.path === '/home/homepage') return next();
+
+  //获取token
+  const tokenStr = window.localStorage.getItem('USERNAME');
+  if(!tokenStr) return next('/login');
+  next()
 })
 
 export default router

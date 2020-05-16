@@ -18,11 +18,11 @@
                     <el-table
                         :data="tableData"
                         stripe
-                        height="240"
+                        height="290"
                         :header-row-class-name="rowheaders"
                         :show-header="hiddenTableHeader"
                         size="mini"
-                        style="width: 99%; font-size: 15px; height: 220px; font-family: '时尚中黑简体';">
+                        style="width: 99%; font-size: 15px; height: 260px; font-family: '时尚中黑简体';">
                         <el-table-column
                             prop="num"
                             label="排名"
@@ -140,6 +140,7 @@ export default {
 }
 .boxbody {
     height: 90%;
+    padding-top: 13px;
 }
 .tableheaderstyle {
     display: grid;
@@ -149,8 +150,8 @@ export default {
     color: #FEFFFF;
     font-size: 1.2em;
     font-family: '时尚中黑简体';
-    margin: 20px;
-    margin-bottom: 10px;
+    margin: 10px;
+    margin-bottom: 5px;
 }
 </style>
 
@@ -162,10 +163,4 @@ export default {
     background-color: rgba(124,165,160,1) !important;
 }
 
-.__bar-is-vertical {
-  right: -1px !important;
-}
-.__bar-is-horizontal {
-  display: none !important;
-}
 </style>

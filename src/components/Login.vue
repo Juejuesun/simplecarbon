@@ -67,8 +67,8 @@ export default {
                     //登陆方法
                     await this.$store.dispatch('logIn', this.ruleForm)
                     // this.$router.push("/home")
-                    const state = window.localStorage.getItem('USERNAME')
-                    if(state) {
+                    let stated = this.getstate()
+                    if(stated) {
                          this.$message({
                           message:"登陆成功",
                           type:'success'
@@ -89,6 +89,9 @@ export default {
                     return false;
                 }
             });
+        },
+        async getstate() {
+            return await window.localStorage.getItem('USERNAME')
         },
         signUp() {
             this.$router.push("/signup")
