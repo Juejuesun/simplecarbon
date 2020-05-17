@@ -25,10 +25,12 @@ export default new Vuex.Store({
       torecScore: 0
     },
     scorePrice: 0.8,
-    userPhyImg: []
+    userPhyImg: [],
+    cityRanks: []
   },
   mutations: {
     async logIn(state, {loginForm}) {
+      console.log(loginForm)
       // loginForm =  { //测试数据
       //   "userPhoto":"https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
       //   "userShake":"SCKET IT",
@@ -39,10 +41,12 @@ export default new Vuex.Store({
       //   "dataEdit":"1"
       // }
       // const {data: res} = await axios.post('http://localhost:3000/login', loginForm)//测试接口
-      const {data: res} = await axios.post('http://localhost:8080/SimpleCarbon/login.action', loginForm)//正式接口 登陆
+      const {data: res} = await axios.get('http://localhost:8080/SimpleCarbon/login.action', {params: loginForm})//正式接口 登陆
+      // const {data: res} = await axios.get('http://localhost:8080/SimpleCarbon/login.action', {params: {id: loginForm.id, password: loginForm.password}})//正式接口 登陆
+
       if(res) {
-        console.log(res)
-        if(res.state=='1') {
+        console.log('登陆返回的数据',res)
+        // if(res.state=='1') {
           state.userInfo.avatar = res.userPhoto
           state.userInfo.userId = res.userId
           state.userInfo.userName = res.userName
@@ -53,10 +57,13 @@ export default new Vuex.Store({
             state.userInfo.userState = '未实名'
           }
           window.localStorage.setItem('USERNAME', res.userName)
-        } else {
-          return false
-        }
+          window.localStorage.setItem('USERINFO', JSON.stringify(state.userInfo))
+
+        // } else {
+          // return false
+        // }
       }
+      console.log('返回后保存的数据',state.userInfo)
     },
     async getTodayData(state) {
       let asc = {
@@ -73,7 +80,7 @@ export default new Vuex.Store({
       //   "shopGoal":1
       // }
       // const {data: res} = await axios.post('http://localhost:3000/posts', asc)//测试接口 获取账户信息
-      const {data: res} = await axios.post('http://localhost:8080/SimpleCarbon/ScoreData.action', asc)//正式接口
+      const {data: res} = await axios.get('http://localhost:8080/SimpleCarbon/ScoreData.action', {params: asc})//正式接口
       if(res) {
         console.log(res)
         let con = 0
@@ -107,34 +114,35 @@ export default new Vuex.Store({
       //   account: 111.11
       // }
       // const {data: res} = await axios.post('http://localhost:3000/profile', asc) //测试接口 更新账户余额
-      const {data: res} = await axios.post('http://localhost:8080/SimpleCarbon/userWallet.action', asc) //正式接口
+      const {data: res} = await axios.get('http://localhost:8080/SimpleCarbon/userWallet.action', {params: asc}) //正式接口
+      // const {data: res} = await axios.get('http://localhost:8080/SimpleCarbon/userWallet.action', {params:{id: state.userInfo.userId}}) //正式接口
       // console.log(res)
       if(res) {
         state.countInfo.userScore = res.score
         state.countInfo.userAccount = res.account
       }
     },
-    async changeMoney(state, {num}) {
-      let asc = {
-        id: state.userInfo.userId,
-        scoreRate: 10,
-        AccountRate: state.scorePrice,
-        num: num
-      }
-      // asc =  {//测试数据
-      //   afterScore: state.countInfo.userScore-num,
-      //   afterAccount: 109.7,
-      //   state: "1",
-      //   beforeAccount: state.countInfo.userAccount,
-      //   beforeScore: state.countInfo.userScore
-      // }
-      // const {data: res} = await axios.post('http://localhost:3000/posts', asc)//测试接口 积分换余额
-      const {data: res} = await axios.post('http://localhost:8080/SimpleCarbon/changeScoreToAccount.action', asc)//正式接口 积分换余额
-      if(res.state=='1') {
-        state.countInfo.userScore = res.afterScore
-        state.countInfo.userAccount = res.afterAccount
-      }
-    },
+    // async changeMoney(state, {score}) {
+    //   let asc = {
+    //     id: state.userInfo.userId,
+    //     scoreRate: 10,
+    //     AccountRate: state.scorePrice,
+    //     num: score
+    //   }
+    //   // asc =  {//测试数据
+    //   //   afterScore: state.countInfo.userScore-num,
+    //   //   afterAccount: 109.7,
+    //   //   state: "1",
+    //   //   beforeAccount: state.countInfo.userAccount,
+    //   //   beforeScore: state.countInfo.userScore
+    //   // }
+    //   // const {data: res} = await axios.post('http://localhost:3000/posts', asc)//测试接口 积分换余额
+    //   const {data: res} = await axios.get('http://localhost:8080/SimpleCarbon/changeScoreToAccount.action', {params: asc})//正式接口 积分换余额
+    //   if(res.state=='1') {
+    //     state.countInfo.userScore = res.afterScore
+    //     state.countInfo.userAccount = res.afterAccount
+    //   }
+    // },
     async changeThings(state, {num}) {
       let asc = {
         id: state.userInfo.userId,
@@ -146,10 +154,29 @@ export default new Vuex.Store({
       //   after: state.countInfo.userScore-num
       // }
       // const {data: res} = await axios.post('http://localhost:3000/posts', asc)//测试接口 积分换商品
-      const {data: res} = await axios.post('http://localhost:8080/SimpleCarbon/changeScoreToProduct.action', asc)//正式接口
+      const {data: res} = await axios.get('http://localhost:8080/SimpleCarbon/changeScoreToProduct.action', {params: asc})//正式接口
       if(res.state=='1') {
         state.countInfo.userScore = res.after
       }
+    },
+    pushUserid(state) {
+      const str = window.localStorage.getItem('USERNAME')
+      if(str) {
+        state.userInfo = JSON.parse(window.localStorage.getItem('USERINFO'))
+        console.log('刷新后数据',state.userInfo)
+      }
+    },
+    async getCityRank(state) {
+      let config = {
+        headers: {
+            // Authorization:'APPCODE a4e68331ad2643ffad45b4c984e3b3bb'
+            "Authorization": "APPCODE a4e68331ad2643ffad45b4c984e3b3bb"
+        }
+      }
+      const {data: res} = await axios.get('http://ali-pm25.showapi.com/pm25-top', config)
+      // console.log(res)
+      state.cityRanks = res.showapi_res_body.list
+      console.log('cityranks',state.cityRanks)
     }
   },
   actions: {
@@ -167,6 +194,12 @@ export default new Vuex.Store({
     },
     changeThings({commit}, num) {
       commit('changeThings', {num})
+    },
+    pushUserid({commit}) {
+      commit('pushUserid')
+    },
+    getCityRank({commit}) {
+      commit('getCityRank')
     }
   },
   modules: {

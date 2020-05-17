@@ -163,9 +163,9 @@ export default {
             // const {data: res2} = await this.$http.post('http://localhost:3000/getInfo', asc)
             // const {data: res3} = await this.$http.post('http://localhost:3000/getInfo', asc)
 
-            const {data: res1} = await this.$http.post('http://localhost:8080/SimpleCarbon/getScoreForToday.action', asc)//正式接口 获取积分状况
-            const {data: res2} = await this.$http.post('http://localhost:8080/SimpleCarbon/getScoreForWeek.action', asc)
-            const {data: res3} = await this.$http.post('http://localhost:8080/SimpleCarbon/getScoreForWeek.action', asc)
+            const {data: res1} = await this.$http.get('http://localhost:8080/SimpleCarbon/getScoreForToday.action', {params: asc})//正式接口 获取积分状况
+            const {data: res2} = await this.$http.get('http://localhost:8080/SimpleCarbon/getScoreForWeek.action', {params: asc})
+            const {data: res3} = await this.$http.get('http://localhost:8080/SimpleCarbon/getScoreForWeek.action', {params: asc})
             let resDay = this.changeNum(res1)
             let resWeek = this.changeNum(res2)
             let resMonth = this.changeNum(res3)
@@ -185,7 +185,7 @@ export default {
             // console.log(asc)
             // asc = this.tableData //测试数据
             // const {data: res} = await this.$http.post('http://localhost:3000/getInfo', asc)//测试接口 查询某日积分
-            const {data: res} = await this.$http.post('http://localhost:8080/SimpleCarbon/getScoreForDay.action', asc)//正式接口
+            const {data: res} = await this.$http.get('http://localhost:8080/SimpleCarbon/getScoreForDay.action', {params: asc})//正式接口
             let resOne = this.changeNum(res)
             this.tableCheckhData = resOne
         },

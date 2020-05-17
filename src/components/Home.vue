@@ -1,7 +1,7 @@
 <template>
-    <el-container>
+    <el-container class="home_con">
         <!-- 侧边部分 -->
-        <el-aside width="200px" style="background-color: rgba(38,71,62,1); height: 600px;">
+        <el-aside width="200px" style="background-color: rgba(38,71,62,1); height: 100%; min-height: 600px;">
             <div class="fonts">简 碳</div>
             <div :class="{outbox: true, ischacked: actived=='homepage'}" @click="oneactive('homepage')">
                 <div :class="{littleBox: actived=='homepage', littleBoxOff: actived !='homepage'}"></div>
@@ -33,14 +33,26 @@
                     <div><i class="el-icon-arrow-right"></i></div>
                 </div>
             </div>
+            <div v-show="isLognIn" :class="{outbox: true, ischacked: actived=='litterhoop'}" @click="oneactive('litterhoop')">
+                <div :class="{littleBox: actived=='litterhoop', littleBoxOff: actived !='litterhoop'}"></div>
+                <div class="inbox">
+                    <div>
+                        <i class="el-icon-bangzhu inicon"></i>
+                        <span slot="title">绿小圈</span>
+                    </div>
+                    <div><i class="el-icon-arrow-right"></i></div>
+                </div>
+            </div>
         </el-aside>
-        <el-main class="con">
+        <el-main class="cons">
             <router-view/>
         </el-main>
     </el-container>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     data() {
         return {
@@ -55,20 +67,27 @@ export default {
         },
         isLognInNow() {
             const state = window.localStorage.getItem('USERNAME')
+            console.log('加载前',state)
             if(state) {
                 this.isLognIn = true
             }
         }
     },
     created() {
-        this.isLognInNow()
+        setTimeout(() => {
+            this.isLognInNow()
+        }, 1000);
+        console.log('登陆验证1',this.isLognIn)
     }
 }
 </script>
 
 <style scoped>
 @import "/src/common/font/font.css";
-
+.home_con {
+    /* background: rgba(94,165,155, 1); */
+    height: 100%;
+}
 .el-menu-vertical-demo {
     height: 540px;
 }
@@ -115,7 +134,8 @@ export default {
     font-size: 1em;
 }
 
-.con {
+.cons {
+    height: 100%;
     padding: 0;
     margin: 0;
 }

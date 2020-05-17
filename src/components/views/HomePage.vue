@@ -64,7 +64,9 @@ export default {
         }
     },
     created() {
-        this.isLognInNow()
+        setTimeout(() => {
+            this.isLognInNow()
+        }, 1000);
     },
     computed: {
         ...mapState(['userInfo'])

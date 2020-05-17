@@ -212,7 +212,7 @@ i {
     justify-content: center;
 }
 .chacked2 {
-    font-size: 3em;
+    font-size: 2em;
     color: #75B4AB;
     display: flex;
     justify-content: center;

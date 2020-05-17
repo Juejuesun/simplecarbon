@@ -2,7 +2,7 @@
     <div class="boxcontainer">
         <!-- 图表区 -->
         <div class="graph">
-            <!-- <img src="" alt=""> -->
+            <el-image src="https://pic.downk.cc/item/5ec14e0dc2a9a83be57fc5b3.jpg" fit="scale-down"></el-image>
         </div>
         <!-- 功能区 -->
         <div>
@@ -71,14 +71,14 @@ export default {
         }
     },
     computed: {
-        ...mapState(['scorePrice','countInfo'])
+        ...mapState(['scorePrice','countInfo','userInfo'])
     },
     methods: {
         changeCash() {
             this.$refs['numberValidateForm'].validate((valid) => {
                 if (valid) {
                     // alert('submit!');
-                    this.changeNum = (this.numberValidateForm.num*this.scorePrice).toFixed(2)
+                    this.changeNum = (this.numberValidateForm.num*this.scorePrice/10).toFixed(2)
                     this.afterAccount = this.countInfo.userScore - this.numberValidateForm.num
                     this.dialogVisible = true
                     // this.$refs['numberValidateForm'].resetFields();
@@ -95,11 +95,33 @@ export default {
         },
         async exchange() {
             // axios请求
-            await this.$store.dispatch('changeMoney',this.numberValidateForm.num)
-
-            this.dialogVisible = false
-            this.bussdone = true
-            this.$refs['numberValidateForm'].resetFields();
+            // await this.$store.dispatch('changeMoney',this.numberValidateForm.num)
+            let asc = {
+                id: this.userInfo.userId,
+                scoreRate: 10,
+                accountRate: this.scorePrice,
+                num: this.numberValidateForm.num
+            }
+            const {data: res} = await this.$http.get('http://localhost:8080/SimpleCarbon/changeScoreToAccount.action', {params: asc})//正式接口 积分换余额
+            if(res) {
+                if(res.state == '1') {
+                    this.$refs['numberValidateForm'].resetFields();
+                    this.dialogVisible = false
+                    this.bussdone = true
+                }else {
+                    this.$message({
+                        message:"请求失败",
+                        type:'error'
+                    })
+                    return false;
+                }
+            }else {
+                this.$message({
+                        message:"请求失败",
+                        type:'error'
+                    })
+                    return false;
+            }
         }
     }
 }
@@ -107,8 +129,8 @@ export default {
 
 <style scoped>
 .graph {
-    height: 340px;
-    width: 770px;
+    height: 396px;
+    width: 670px;
     background: darkgoldenrod;
 }
 .donebtn {
@@ -190,7 +212,7 @@ i {
     justify-content: center;
 }
 .chacked2 {
-    font-size: 3em;
+    font-size: 2em;
     color: #75B4AB;
     display: flex;
     justify-content: center;

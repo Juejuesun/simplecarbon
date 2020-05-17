@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container class="con">
         <el-header class="headerviews">
             <div class="menuBox">
                 <div :class="{checked: page=='perhome'}" @click="checked('perhome')"><div style="cursor: pointer;">个人中心</div></div>

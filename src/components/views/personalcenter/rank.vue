@@ -119,14 +119,14 @@ export default {
     methods: {
         async followIt(index) {
             let asc = {
-                userid: this.userInfo.userId,
+                userId: this.userInfo.userId,
                 friendId: this.rankDatas[index].friendId
             }
             // asc = {//测试数据
             //     state: "1"
             // }
             // const {data: res} = await this.$http.post('http://localhost:3000/comments', asc)//测试接口 关注好友
-            const {data: res} = await this.$http.post('http://localhost:8080/SimpleCarbon/followSomeone.action', asc)//正式接口
+            const {data: res} = await this.$http.get('http://localhost:8080/SimpleCarbon/followSomeone.action', {params: asc})//正式接口
             if(res) {
                 // console.log(res)
                 if(res.state=='1') {
@@ -153,10 +153,10 @@ export default {
             }
             // asc = this.rankData//测试数据
             // const {data: res} = await this.$http.post(`http://localhost:3000/${apis}`, asc)//测试接口 获取列表
-            const {data: res} = await this.$http.post(`http://localhost:8080/SimpleCarbon/${apis}`, asc)//正式接口
+            const {data: res} = await this.$http.get(`http://localhost:8080/SimpleCarbon/${apis}`, {params: asc})//正式接口
 
             if(res) {
-                console.log(res)
+                console.log('排行榜返回数据',res)
                 this.rankDatas = res
             }
         }
@@ -164,15 +164,15 @@ export default {
     mounted() {
         if( this.$route.query.rc == 'friend') {
             this.rankName = '好友排行榜'
-            this.getFriendRank('getInfo')
+            this.getFriendRank('friendTop10.action')
         }
         if( this.$route.query.rc == 'city') {
             this.rankName = '城市排行榜'
-            this.getFriendRank('getInfo')
+            this.getFriendRank('cityTop10.action')
         }
         if( this.$route.query.rc == 'country') {
             this.rankName = '全国排行榜'
-            this.getFriendRank('getInfo')
+            this.getFriendRank('countryTop10.action')
         }
     }
 }

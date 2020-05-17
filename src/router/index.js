@@ -15,7 +15,7 @@ import Things from '../components/views/PlayMent/Things'
 import Vouchers from '../components/views/PlayMent/Vouchers'
 import ForRecord from '../components/views/PlayMent/ForRecord'
 import Account from '../components/views/PlayMent/Account'
-
+import LitterHoop from '../components/views/LitterHoop'
 Vue.use(VueRouter)
 
 const routes = [
@@ -46,6 +46,11 @@ const routes = [
         path: '/home/homepage',
         name: 'HomePage',
         component: HomePage
+      },
+      {
+        path: '/home/litterhoop',
+        name: 'LitterHoop',
+        component: LitterHoop
       },
       {
         path: '/home/percenter',
@@ -134,6 +139,7 @@ router.beforeEach((to,from,next) => {
   if(to.path === '/login') return next();
   if(to.path === '/signup') return next();
   if(to.path === '/home/homepage') return next();
+  if(to.path === '/home/percenter/friend') return next();
 
   //获取token
   const tokenStr = window.localStorage.getItem('USERNAME');

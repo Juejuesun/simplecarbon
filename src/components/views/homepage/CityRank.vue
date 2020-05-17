@@ -11,7 +11,7 @@
                 <div>
                 <!-- 表头 -->
                 <div class="tableheaderstyle">
-                    <div @click="getrankData">排名</div>
+                    <div>排名</div>
                     <div>城市</div>
                     <div>指数</div>
                 </div>
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     data() {
         return {
@@ -87,6 +89,9 @@ export default {
             hiddenTableHeader: false,            
         }
     },
+    computed: {
+        ...mapState(['cityRanks'])
+    },
     methods: {
         rowheaders() {
             return 'rowheader'
@@ -100,8 +105,8 @@ export default {
             }
             const {data: res} = await this.$http.get('http://ali-pm25.showapi.com/pm25-top', config)
             // console.log(res)
-            let list = res.showapi_res_body.list
-            console.log(list)
+            let list = this.cityRanks
+            console.log('list',list)
             this.cityData = list
             for( let i = 0; i<8; i++) {
                 this.tableData[i].num = list[i].num
@@ -109,6 +114,9 @@ export default {
                 this.tableData[i].aqi = list[i].aqi
             }
         }
+    },
+    mounted() {
+        this.getrankData()
     }
 }
 </script>

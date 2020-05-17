@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container class="con">
         <el-header class="headerviews">
             <div class="menuBox">
                 <div :class="{checked: page=='cashchange'}" @click="checked('cashchange')"><div style="cursor: pointer;">现金</div></div>

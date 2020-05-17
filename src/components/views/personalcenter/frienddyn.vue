@@ -159,7 +159,7 @@ export default {
             //     state: "1"
             // }
             // const {data: res} = await this.$http.post('http://localhost:3000/comments', asc)//测试接口
-            const {data: res} = await this.$http.post('http://localhost:8080/SimpleCarbon/followSomeone.action', asc)//正式接口 关注好友
+            const {data: res} = await this.$http.get('http://localhost:8080/SimpleCarbon/followSomeone.action', {params: asc})//正式接口 关注好友
             if(res) {
                 // console.log(res)
                 if(res.state=='1') {
@@ -186,7 +186,7 @@ export default {
             }
             // asc = this.dyndata//测试数据
             // const {data: res} = await this.$http.post(`http://localhost:3000/${apis}`, asc)//测试接口
-            const {data: res} = await this.$http.post(`http://localhost:8080/SimpleCarbon/${apis}`, asc)//正式接口 获取列表
+            const {data: res} = await this.$http.get(`http://localhost:8080/SimpleCarbon/${apis}`, {params: asc})//正式接口 获取列表
             if(res) {
                 console.log(res)
                 this.dyndatas = res

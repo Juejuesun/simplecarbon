@@ -66,8 +66,14 @@ export default {
                     console.log(this.ruleForm)
                     //登陆方法
                     // const {data: res} = await this.$http.post('http://localhost:3000/profile', this.ruleForm)//测试数据
-                    const {data: res} = await this.$http.post('http://localhost:8080/SimpleCarbon/register.action', this.ruleForm)//正式数据 注册
-                    if(res.state=='0') {//正式数据
+                    let asc = {
+                        id: this.ruleForm.id,
+                        password: this.ruleForm.password
+                    }
+                    console.log(asc)
+                    const {data: res} = await this.$http.get('http://localhost:8080/SimpleCarbon/register.action', {params: asc})
+                    // const {data: res} = await this.$http.post('http://localhost:8080/SimpleCarbon/register.action', JSON.stringify(asc))//正式
+                    if(res.state=='1') {//正式数据
                     // if(res.id) {//测试数据
                          this.$message({
                           message:"注册成功",

@@ -12,6 +12,10 @@ export default {
   name: 'app',
   components: {
     // Login
+  },
+  created() {
+    this.$store.dispatch('pushUserid')
+    this.$store.dispatch('getCityRank')
   }
 }
 </script>
