@@ -5,6 +5,7 @@
                 <div class="inlineitem">
                     <div><i class="fa fa-circle" aria-hidden="true"></i></div>
                     <div>今日积分</div>
+                    <div style="margin-left: 15px;">{{countInfo.todayScore}}</div>
                 </div>
                 <div class="inlineitem">
                     <div><i class="fa fa-circle" aria-hidden="true"></i></div>
