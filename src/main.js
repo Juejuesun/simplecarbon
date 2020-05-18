@@ -8,6 +8,7 @@ import axios from 'axios'
 import './assets/global.css'
 
 import store from './store'
+import './registerServiceWorker'
 
 Vue.prototype.$http = axios
 

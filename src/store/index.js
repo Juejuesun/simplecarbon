@@ -22,7 +22,8 @@ export default new Vuex.Store({
       walkToday: 0,
       shopToday: 0,
       busToday: 0,
-      torecScore: 0
+      torecScore: 0,
+      todayScore: 0
     },
     scorePrice: 0.8,
     userPhyImg: [],
@@ -69,7 +70,7 @@ export default new Vuex.Store({
       let asc = {
         id: state.userInfo.userId
       }
-      // asc = {   //测试数据
+      // let res = {   //测试数据
       //   "busGoal":2,
       //   "walkToday":3453,
       //   "shopToday":1,
@@ -84,6 +85,7 @@ export default new Vuex.Store({
       if(res) {
         console.log(res)
         let con = 0
+        let allsco = 0
         state.countInfo.walkGoal = res.walkGoal
         state.countInfo.busGoal = res.busGoal
         state.countInfo.shopGoal = res.shopGoal
@@ -93,16 +95,14 @@ export default new Vuex.Store({
         state.countInfo.shopToday = res.shopToday
         state.countInfo.busToday = res.busToday
         state.userPhyImg = res.images
-        if(res.walkToday<res.walkGoal) {
-          con++
+        allsco = 5 + res.shopGoal + res.busGoal
+        if(res.walkToday>=res.walkGoal) {
+          con = con + 5
         }
-        if(res.busToday<res.busGoal) {
-          con++
-        }
-        if(res.shopToday<res.shopGoal) {
-          con++
-        }
-        state.countInfo.torecScore = con
+        con = con + res.busToday + res.shopToday
+        state.countInfo.todayScore = con
+        state.countInfo.torecScore = allsco - con
+        
       }
     },
     async updateInfo(state) {
