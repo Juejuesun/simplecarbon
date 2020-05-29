@@ -1,5 +1,6 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === "production" ? "/dist/" : "/",
+    // publicPath: process.env.NODE_ENV === "production" ? "/dist/" : "/",
+    publicPath: './',
     pwa: {
         iconPaths: {
             favicon32: 'favicon.ico',
