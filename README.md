@@ -28,3 +28,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 后端仓库
 [仓库链接](https://github.com/quewenjin/SimpleCarbon)
+
+### [GitHub Page](https://juejuesun.github.io/simplecarbon/dist/index.html#/home/homepage)
+
+#### 路由列表
