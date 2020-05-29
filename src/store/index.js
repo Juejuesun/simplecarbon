@@ -173,7 +173,7 @@ export default new Vuex.Store({
             "Authorization": "APPCODE a4e68331ad2643ffad45b4c984e3b3bb"
         }
       }
-      const {data: res} = await axios.get('http://ali-pm25.showapi.com/pm25-top', config)
+      const {data: res} = await axios.get('https://ali-pm25.showapi.com/pm25-top', config)
       // console.log(res)
       state.cityRanks = res.showapi_res_body.list
       console.log('cityranks',state.cityRanks)
