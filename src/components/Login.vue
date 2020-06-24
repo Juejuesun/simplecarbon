@@ -44,8 +44,8 @@ export default {
      data() {
       return {
         ruleForm: {
-          id: '',
-          password: ''
+          id: '12345601',
+          password: '11111111'
         },
         rules: {
           id: [
@@ -65,13 +65,17 @@ export default {
                 if (valid) {
                     console.log(this.ruleForm)
                     //登陆方法
-                    await this.$store.dispatch('logIn', this.ruleForm)
+                    const {data: res} = await this.$http.post('/login', this.ruleForm)//正式接口 登陆
+
+                    if(res.state=='1') {
+                        this.$store.dispatch('logIn', res)
                     // this.$router.push("/home")
-                    let stated = this.getstate()
-                    if(stated) {
-                         this.$message({
-                          message:"登陆成功",
-                          type:'success'
+                    // }
+                    // let stated = this.getstate()
+                    // if(stated) {
+                        this.$message({
+                        message:"登陆成功",
+                        type:'success'
                         })
                         this.$router.push("/home")
                     } else {
@@ -89,9 +93,6 @@ export default {
                     return false;
                 }
             });
-        },
-        async getstate() {
-            return await window.localStorage.getItem('USERNAME')
         },
         signUp() {
             this.$router.push("/signup")

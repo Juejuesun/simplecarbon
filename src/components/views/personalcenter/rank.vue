@@ -6,6 +6,7 @@
                     <div>{{rankName}}</div>
                 </el-header>
                 <el-main class="boxbody">
+                    <vuescroll :ops="ops">
                     <div v-for="(rank, index) in rankDatas" :key="index" class="rankInLine">
                         <div>{{rank.ranking}}</div>
                         <div>
@@ -15,6 +16,7 @@
                         <div>{{rank.name}}</div>
                         <div style="justify-self: end;">{{rank.totals}}</div>
                     </div>
+                    </vuescroll>
                 </el-main>
             </el-container>
         </el-card>
@@ -32,77 +34,28 @@
 
 <script>
 import {mapState} from 'vuex'
+import vuescroll from 'vuescroll'
 
 export default {
+    components: {
+        vuescroll
+    },
     data() {
         return {
-            rankData: [
-                {
-                    ranking: 1,
-                    name: 'JAME',
-                    totals: '2340',
-                    isFollowed: '0',
-                    friendId: '12345',
-                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-                    images: [
-                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
-                    ]
+            ops: {
+                vuescroll: {},
+                scrollPanel: {},
+                rail: {
+                    keepShow: true
                 },
-                {
-                    ranking: 2,
-                    name: 'SUMMER',
-                    totals: '1348',
-                    isFollowed: '1',
-                    friendId: '12345',
-                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-                    images: [
-                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
-                    ]
-                },
-                {
-                    ranking: 3,
-                    name: 'VITTO',
-                    totals: '1230',
-                    isFollowed: '0',
-                    friendId: '12345',
-                    avantar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-                    images: [
-                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
-                    ]
-                },
-                {
-                    ranking: 4,
-                    name: 'MOYO',
-                    totals: '1193',
-                    isFollowed: '0',
-                    friendId: '12345',
-                    avantar: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-                    images: [
-                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
-                    ]
-                },
-                {
-                    ranking: 5,
-                    name: 'SNAP',
-                    totals: '1092',
-                    isFollowed: '1',
-                    friendId: '12345',
-                    avantar: '',
-                    images: [
-                        {url: 'https://pic.downk.cc/item/5ebac3b3c2a9a83be5bc0624.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac00fc2a9a83be5b6a0ca.png'},
-                        {url: 'https://pic.downk.cc/item/5ebac005c2a9a83be5b69356.png'}
-                    ]
-                },
-            ],
+                bar: {
+                    hoverStyle: true,
+                    onlyShowBarOnScroll: true, //是否只有滚动的时候才显示滚动条
+                    background: "#909399",//滚动条颜色
+                    opacity: 0.5,//滚动条透明度
+                    "overflow-x": "hidden"
+                }
+            },
             rankDatas: [],
             dialogVisible: false,
             rankNames: {
@@ -126,7 +79,7 @@ export default {
             //     state: "1"
             // }
             // const {data: res} = await this.$http.post('http://localhost:3000/comments', asc)//测试接口 关注好友
-            const {data: res} = await this.$http.get('http://localhost:8080/SimpleCarbon/followSomeone.action', {params: asc})//正式接口
+            const {data: res} = await this.$http.post('/followSomeone', asc)//正式接口
             if(res) {
                 // console.log(res)
                 if(res.state=='1') {
@@ -153,10 +106,10 @@ export default {
             }
             // asc = this.rankData//测试数据
             // const {data: res} = await this.$http.post(`http://localhost:3000/${apis}`, asc)//测试接口 获取列表
-            const {data: res} = await this.$http.get(`http://localhost:8080/SimpleCarbon/${apis}`, {params: asc})//正式接口
+            const {data: res} = await this.$http.post(apis, asc)//正式接口
 
             if(res) {
-                console.log('排行榜返回数据',res)
+                // console.log('排行榜返回数据',res)
                 this.rankDatas = res
             }
         }
@@ -164,15 +117,15 @@ export default {
     mounted() {
         if( this.$route.query.rc == 'friend') {
             this.rankName = '好友排行榜'
-            this.getFriendRank('friendTop10.action')
+            this.getFriendRank('/friendTop10')
         }
         if( this.$route.query.rc == 'city') {
             this.rankName = '城市排行榜'
-            this.getFriendRank('cityTop10.action')
+            this.getFriendRank('/cityTop10')
         }
         if( this.$route.query.rc == 'country') {
             this.rankName = '全国排行榜'
-            this.getFriendRank('countryTop10.action')
+            this.getFriendRank('/countryTop10')
         }
     }
 }
@@ -209,10 +162,11 @@ export default {
 }
 .boxbody {
     padding: 5px;
+    height: 400px;
 }
 .rankInLine {
     display: grid;
-    grid-template-columns: 5% 12% 13% 35% 35%;
+    grid-template-columns: 10% 12% 13% 35% 30%;
     align-items: center;
 
     font-family: '时尚中黑简体';

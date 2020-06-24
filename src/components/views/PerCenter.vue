@@ -46,7 +46,7 @@ export default {
             })
         },
         logOut() {
-            window.localStorage.clear()
+            window.sessionStorage.clear()
             setTimeout(() => {
                 this.isLognIn = false
                 this.$router.push("/login")
@@ -54,7 +54,7 @@ export default {
             
         },
         isLognInNow() {
-            const state = window.localStorage.getItem('USERNAME')
+            const state = window.sessionStorage.getItem('USERNAME')
             if(state) {
                 this.isLognIn = true
                 this.$store.dispatch('updateInfo')

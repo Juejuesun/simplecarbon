@@ -111,7 +111,7 @@ export default {
     },
     methods: {
         logOut() {
-            window.localStorage.clear()
+            window.sessionStorage.clear()
             setTimeout(() => {
                 this.isLognIn = false
                 this.$router.push("/login")
@@ -119,7 +119,7 @@ export default {
         },
         isLognInNow() {
             setTimeout(() => {
-                const state = window.localStorage.getItem('USERNAME')
+                const state = window.sessionStorage.getItem('USERNAME')
                 if(state) {
                     this.isLognIn = true
                 }
@@ -150,10 +150,7 @@ export default {
                 id: this.userInfo.userId,
                 num: this.numberValidateForm.num
             }
-            const {data: res} = await this.$http.get('http://localhost:8080/SimpleCarbon/changeScoreToDonate.action',{params: asc})
-            // let res = {
-            //     state: '1'
-            // }
+            const {data: res} = await this.$http.post('/changeScoreToDonate', asc)
             if(res) {
                 if(res.state == '1') {
                     this.$message({

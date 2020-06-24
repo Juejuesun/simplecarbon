@@ -16,7 +16,7 @@
                     <div>指数</div>
                 </div>
                     <el-table
-                        :data="tableData"
+                        :data="cityRanks"
                         stripe
                         height="290"
                         :header-row-class-name="rowheaders"
@@ -52,40 +52,6 @@ export default {
     data() {
         return {
             city: '',
-            tableData: [{
-                num: '1',
-                area: '福州',
-                aqi: '15'
-                }, {
-                num: '2',
-                area: '上海',
-                aqi: '21'
-                }, {
-                num: '3',
-                area: '成都',
-                aqi: '33'
-                }, {
-                num: '4',
-                area: '上海',
-                aqi: '21'
-                }, {
-                num: '5',
-                area: '成都',
-                aqi: '33'
-                },{
-                num: '6',
-                area: '上海',
-                aqi: '21'
-                }, {
-                num: '7',
-                area: '成都',
-                aqi: '33'
-                },{
-                num: '8',
-                area: '上海',
-                aqi: '21'
-                }],
-            cityData: [],
             hiddenTableHeader: false,            
         }
     },
@@ -95,28 +61,10 @@ export default {
     methods: {
         rowheaders() {
             return 'rowheader'
-        },
-        async getrankData() {
-            let config = {
-                headers: {
-                    // Authorization:'APPCODE a4e68331ad2643ffad45b4c984e3b3bb'
-                    "Authorization": "APPCODE a4e68331ad2643ffad45b4c984e3b3bb"
-                }
-            }
-            const {data: res} = await this.$http.get('http://ali-pm25.showapi.com/pm25-top', config)
-            // console.log(res)
-            let list = this.cityRanks
-            console.log('list',list)
-            this.cityData = list
-            for( let i = 0; i<8; i++) {
-                this.tableData[i].num = list[i].num
-                this.tableData[i].area = list[i].area
-                this.tableData[i].aqi = list[i].aqi
-            }
         }
     },
-    mounted() {
-        this.getrankData()
+    created() {
+        this.$store.dispatch('getCityRank')
     }
 }
 </script>

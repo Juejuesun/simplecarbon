@@ -102,12 +102,13 @@ export default {
                 accountRate: this.scorePrice,
                 num: this.numberValidateForm.num
             }
-            const {data: res} = await this.$http.get('http://localhost:8080/SimpleCarbon/changeScoreToAccount.action', {params: asc})//正式接口 积分换余额
+            const {data: res} = await this.$http.post('/changeScoreToAccount', asc)//正式接口 积分换余额
             if(res) {
                 if(res.state == '1') {
                     this.$refs['numberValidateForm'].resetFields();
                     this.dialogVisible = false
                     this.bussdone = true
+                    this.$store.dispatch('updateInfo')
                 }else {
                     this.$message({
                         message:"请求失败",

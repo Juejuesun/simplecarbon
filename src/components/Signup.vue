@@ -63,16 +63,12 @@ export default {
         submitForm() {
              this.$refs['ruleForm'].validate(async (valid) => {
                 if (valid) {
-                    console.log(this.ruleForm)
-                    //登陆方法
-                    // const {data: res} = await this.$http.post('http://localhost:3000/profile', this.ruleForm)//测试数据
                     let asc = {
                         id: this.ruleForm.id,
                         password: this.ruleForm.password
                     }
-                    console.log(asc)
-                    const {data: res} = await this.$http.get('http://localhost:8080/SimpleCarbon/register.action', {params: asc})
-                    // const {data: res} = await this.$http.post('http://localhost:8080/SimpleCarbon/register.action', JSON.stringify(asc))//正式
+                    const {data: res} = await this.$http.post('register', asc)
+                    console.log(res)
                     if(res.state=='1') {//正式数据
                     // if(res.id) {//测试数据
                          this.$message({

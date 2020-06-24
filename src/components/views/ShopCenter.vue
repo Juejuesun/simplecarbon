@@ -44,14 +44,14 @@ export default {
             this.$router.push(`/home/shopcenter/${page}`);
         },
         logOut() {
-            window.localStorage.clear()
+            window.sessionStorage.clear()
             setTimeout(() => {
                 this.isLognIn = false
                 this.$router.push("/login")
             }, 1000);
         },
         isLognInNow() {
-            const state = window.localStorage.getItem('USERNAME')
+            const state = window.sessionStorage.getItem('USERNAME')
             if(state) {
                 this.isLognIn = true
             }

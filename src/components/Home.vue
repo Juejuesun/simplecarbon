@@ -66,7 +66,7 @@ export default {
             this.$router.push(`/home/${data}`);
         },
         isLognInNow() {
-            const state = window.localStorage.getItem('USERNAME')
+            const state = window.sessionStorage.getItem('USERNAME')
             console.log('加载前',state)
             if(state) {
                 this.isLognIn = true

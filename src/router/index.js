@@ -142,7 +142,7 @@ router.beforeEach((to,from,next) => {
   if(to.path === '/home/percenter/friend') return next();
 
   //获取token
-  const tokenStr = window.localStorage.getItem('USERNAME');
+  const tokenStr = window.sessionStorage.getItem('USERNAME');
   if(!tokenStr) return next('/login');
   next()
 })
