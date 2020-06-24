@@ -10,7 +10,7 @@ import './assets/global.css'
 import store from './store'
 import './registerServiceWorker'
 
-axios.defaults.baseURL = 'http://47.92.202.164:8081'//正式
+axios.defaults.baseURL = 'http://localhost:8080'
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = true

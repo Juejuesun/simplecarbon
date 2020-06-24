@@ -116,27 +116,6 @@ export default new Vuex.Store({
         state.countInfo.userAccount = res.account
       }
     },
-    // async changeMoney(state, {score}) {
-    //   let asc = {
-    //     id: state.userInfo.userId,
-    //     scoreRate: 10,
-    //     AccountRate: state.scorePrice,
-    //     num: score
-    //   }
-    //   // asc =  {//测试数据
-    //   //   afterScore: state.countInfo.userScore-num,
-    //   //   afterAccount: 109.7,
-    //   //   state: "1",
-    //   //   beforeAccount: state.countInfo.userAccount,
-    //   //   beforeScore: state.countInfo.userScore
-    //   // }
-    //   // const {data: res} = await axios.post('http://localhost:3000/posts', asc)//测试接口 积分换余额
-    //   const {data: res} = await axios.get('http://localhost:8080/SimpleCarbon/changeScoreToAccount.action', {params: asc})//正式接口 积分换余额
-    //   if(res.state=='1') {
-    //     state.countInfo.userScore = res.afterScore
-    //     state.countInfo.userAccount = res.afterAccount
-    //   }
-    // },
     async changeThings(state, {num}) {
       let asc = {
         id: state.userInfo.userId,
@@ -150,7 +129,7 @@ export default new Vuex.Store({
     async getCityRank(state) {
       let config = {
         headers: {
-            "Authorization": "APPCODE a4e68331ad2643ffad45b4c984e3b3bb"
+            "Authorization": "APPCODE XXX"
         }
       }
       const {data: res} = await axios.get('https://ali-pm25.showapi.com/pm25-top', config)
