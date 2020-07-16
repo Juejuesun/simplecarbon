@@ -6,6 +6,7 @@ import axios from 'axios'
 
 // 导入全局样式
 import './assets/global.css'
+import 'font-awesome/css/font-awesome.css'
 
 import store from './store'
 import './registerServiceWorker'
