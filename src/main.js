@@ -11,7 +11,8 @@ import 'font-awesome/css/font-awesome.css'
 import store from './store'
 import './registerServiceWorker'
 
-axios.defaults.baseURL = 'http://localhost:8080'
+// axios.defaults.baseURL = 'http://47.92.202.164:8081'//正式
+axios.defaults.baseURL = '`http://39.100.133.1:8080`'//正式
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = true

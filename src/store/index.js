@@ -129,7 +129,7 @@ export default new Vuex.Store({
     async getCityRank(state) {
       let config = {
         headers: {
-            "Authorization": "APPCODE XXX"
+            "Authorization": "APPCODE a4e68331ad2643ffad45b4c984e3b3bb"
         }
       }
       const {data: res} = await axios.get('https://ali-pm25.showapi.com/pm25-top', config)

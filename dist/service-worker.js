@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.9e26164f241f0d64dbe5b206dfb492ec.js"
+  "precache-manifest.3f46dafad4c97e67edc8bebbcbaeccf9.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "simplecarbon"});
